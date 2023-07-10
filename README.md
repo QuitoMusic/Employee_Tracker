@@ -13,3 +13,5 @@ Refferences:
 5. Create Database: https://dev.mysql.com/doc/refman/8.0/en/create-database.html
 
 6. Insert Statement: https://dev.mysql.com/doc/refman/8.0/en/insert.html
+
+7. How do I create a MySQL connection pool while working with NodeJS and Express?: https://stackoverflow.com/questions/37102364/how-do-i-create-a-mysql-connection-pool-while-working-with-nodejs-and-express
