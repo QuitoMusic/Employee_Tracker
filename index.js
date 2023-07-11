@@ -99,3 +99,17 @@ db.connect((err) => {
         console.error('Error:', error);
       });
   }
+
+  // Function to view all departments
+function viewDepartments() {
+    const query = 'SELECT * FROM department';
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error viewing departments:', err);
+        promptMainMenu();
+        return;
+      }
+      console.table(results);
+      promptMainMenu();
+    });
+  }
