@@ -113,3 +113,21 @@ function viewDepartments() {
       promptMainMenu();
     });
   }
+
+  // Function to view all roles
+function viewRoles() {
+    const query = `
+      SELECT role.id, role.title, role.salary, department.name AS department
+      FROM role
+      INNER JOIN department ON role.department_id = department.id
+    `;
+    db.query(query, (err, results) => {
+      if (err) {
+        console.error('Error viewing roles:', err);
+        promptMainMenu();
+        return;
+      }
+      console.table(results);
+      promptMainMenu();
+    });
+  }
