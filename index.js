@@ -180,3 +180,42 @@ function addDepartment() {
       });
   }
 
+  // Function to add a role
+function addRole() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'title',
+          message: 'Enter the title of the role:',
+          validate: (value) => value.trim() !== '',
+        },
+        {
+          type: 'input',
+          name: 'salary',
+          message: 'Enter the salary of the role:',
+          validate: (value) => !isNaN(parseFloat(value)),
+        },
+        {
+          type: 'input',
+          name: 'departmentId',
+          message: 'Enter the department ID for the role:',
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+      ])
+      .then((answers) => {
+        const query = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+        db.query(query, [answers.title, answers.salary, answers.departmentId], (err) => {
+          if (err) {
+            console.error('Error adding role:', err);
+            promptMainMenu();
+            return;
+          }
+          console.log('Role added successfully!');
+          promptMainMenu();
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
