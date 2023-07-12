@@ -219,7 +219,7 @@ function addRole() {
         console.error('Error:', error);
       });
   }
-  
+
 // Function to add an employee
 function addEmployee() {
     inquirer
@@ -259,6 +259,40 @@ function addEmployee() {
             return;
           }
           console.log('Employee added successfully!');
+          promptMainMenu();
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  // Function to update an employee role
+function updateEmployeeRole() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'employeeId',
+          message: 'Enter the ID of the employee you want to update:',
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+        {
+          type: 'input',
+          name: 'roleId',
+          message: 'Enter the new role ID for the employee:',
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+      ])
+      .then((answers) => {
+        const query = 'UPDATE employee SET role_id = ? WHERE id = ?';
+        db.query(query, [answers.roleId, answers.employeeId], (err) => {
+          if (err) {
+            console.error('Error updating employee role:', err);
+            promptMainMenu();
+            return;
+          }
+          console.log('Employee role updated successfully!');
           promptMainMenu();
         });
       })
