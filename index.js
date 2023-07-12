@@ -334,3 +334,37 @@ function viewEmployeesByManager() {
         console.error('Error:', error);
       }); 
     }
+
+    // Function to view employees by department
+function viewEmployeesByDepartment() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'departmentId',
+          message: 'Enter the ID of the department:',
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+      ])
+      .then((answers) => {
+        const query = `
+          SELECT employee.id, employee.first_name, employee.last_name, role.title AS role, department.name AS department, role.salary
+          FROM employee
+          INNER JOIN role ON employee.role_id = role.id
+          INNER JOIN department ON role.department_id = department.id
+          WHERE department.id = ?
+        `;
+        db.query(query, [answers.departmentId], (err, results) => {
+          if (err) {
+            console.error('Error viewing employees by department:', err);
+            promptMainMenu();
+            return;
+          }
+          console.table(results);
+          promptMainMenu();
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
