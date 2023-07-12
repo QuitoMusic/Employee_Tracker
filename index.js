@@ -219,3 +219,50 @@ function addRole() {
         console.error('Error:', error);
       });
   }
+  
+// Function to add an employee
+function addEmployee() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'firstName',
+          message: "Enter the employee's first name:",
+          validate: (value) => value.trim() !== '',
+        },
+        {
+          type: 'input',
+          name: 'lastName',
+          message: "Enter the employee's last name:",
+          validate: (value) => value.trim() !== '',
+        },
+        {
+          type: 'input',
+          name: 'roleId',
+          message: "Enter the role ID for the employee:",
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+        {
+          type: 'input',
+          name: 'managerId',
+          message: "Enter the manager ID for the employee (leave blank if none):",
+          default: null,
+          validate: (value) => value === '' || !isNaN(parseInt(value)),
+        },
+      ])
+      .then((answers) => {
+        const query = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
+        db.query(query, [answers.firstName, answers.lastName, answers.roleId, answers.managerId], (err) => {
+          if (err) {
+            console.error('Error adding employee:', err);
+            promptMainMenu();
+            return;
+          }
+          console.log('Employee added successfully!');
+          promptMainMenu();
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
