@@ -5,7 +5,7 @@ const mysql = require('mysql2');
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'Michelle1990@',
+  password: '',
   database: 'employee_management',
 });
 
@@ -445,6 +445,40 @@ function deleteDepartment() {
             return;
           }
           console.log('Employee deleted successfully!');
+          promptMainMenu();
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+
+    // Function to view the total utilized budget of a department
+function viewDepartmentBudget() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'departmentId',
+          message: 'Enter the ID of the department:',
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+      ])
+      .then((answers) => {
+        const query = `
+          SELECT department.id, department.name, SUM(role.salary) AS utilized_budget
+          FROM employee
+          INNER JOIN role ON employee.role_id = role.id
+          INNER JOIN department ON role.department_id = department.id
+          WHERE department.id = ?
+        `;
+        db.query(query, [answers.departmentId], (err, results) => {
+          if (err) {
+            console.error('Error viewing department budget:', err);
+            promptMainMenu();
+            return;
+          }
+          console.table(results);
           promptMainMenu();
         });
       })
