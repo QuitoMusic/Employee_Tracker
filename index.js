@@ -300,3 +300,37 @@ function updateEmployeeRole() {
         console.error('Error:', error);
       });
   }
+
+  // Function to view employees by manager
+function viewEmployeesByManager() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'managerId',
+          message: 'Enter the ID of the manager:',
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+      ])
+      .then((answers) => {
+        const query = `
+          SELECT employee.id, employee.first_name, employee.last_name, role.title AS role, department.name AS department, role.salary
+          FROM employee
+          INNER JOIN role ON employee.role_id = role.id
+          INNER JOIN department ON role.department_id = department.id
+          WHERE employee.manager_id = ?
+        `;
+        db.query(query, [answers.managerId], (err, results) => {
+          if (err) {
+            console.error('Error viewing employees by manager:', err);
+            promptMainMenu();
+            return;
+          }
+          console.table(results);
+          promptMainMenu();
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      }); 
+    }
