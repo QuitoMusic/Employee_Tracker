@@ -53,6 +53,9 @@ m. How to view budget by department:
 <br>![](./assets/images/View%20department's%20budget.png)<br>
 
 
+## Video Walkthrough 
+https://watch.screencastify.com/v/OqfykLiNhbAdtOuLRDUg
+
 ## Contributing
 
 If you would like to contribute as a developer, you can submit a pull request. Before starting any substantial work, it's recommended to open an issue to discuss your proposed changes with the lead developer.
