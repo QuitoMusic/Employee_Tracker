@@ -368,3 +368,87 @@ function viewEmployeesByDepartment() {
         console.error('Error:', error);
       });
   }
+
+  // Function to delete a department
+function deleteDepartment() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'departmentId',
+          message: 'Enter the ID of the department you want to delete:',
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+      ])
+      .then((answers) => {
+        const query = 'DELETE FROM department WHERE id = ?';
+        db.query(query, [answers.departmentId], (err) => {
+          if (err) {
+            console.error('Error deleting department:', err);
+            promptMainMenu();
+            return;
+          }
+          console.log('Department deleted successfully!');
+          promptMainMenu();
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+  
+  // Function to delete a role
+  function deleteRole() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'roleId',
+          message: 'Enter the ID of the role you want to delete:',
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+      ])
+      .then((answers) => {
+        const query = 'DELETE FROM role WHERE id = ?';
+        db.query(query, [answers.roleId], (err) => {
+          if (err) {
+            console.error('Error deleting role:', err);
+            promptMainMenu();
+            return;
+          }
+          console.log('Role deleted successfully!');
+          promptMainMenu();
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+  
+  // Function to delete an employee
+  function deleteEmployee() {
+    inquirer
+      .prompt([
+        {
+          type: 'input',
+          name: 'employeeId',
+          message: 'Enter the ID of the employee you want to delete:',
+          validate: (value) => !isNaN(parseInt(value)),
+        },
+      ])
+      .then((answers) => {
+        const query = 'DELETE FROM employee WHERE id = ?';
+        db.query(query, [answers.employeeId], (err) => {
+          if (err) {
+            console.error('Error deleting employee:', err);
+            promptMainMenu();
+            return;
+          }
+          console.log('Employee deleted successfully!');
+          promptMainMenu();
+        });
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
